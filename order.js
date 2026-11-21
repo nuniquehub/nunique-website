@@ -380,6 +380,8 @@ if (confirmModal) {
 // ── PROGRESSIVE FORM SECTIONS ────────────────────────────────────────────────
 // Keep the form on one page, but disclose the longer sections only when needed.
 (function enhanceOrderSections() {
+    // Keep the complete order form visible instead of converting sections into accordions.
+    return;
     var form = document.getElementById('cakeForm');
     if (!form) return;
 
