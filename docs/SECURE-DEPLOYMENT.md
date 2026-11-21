@@ -36,7 +36,7 @@ the SHA-256 fingerprint matches.
 
 Restrict the SFTP account to the website directory and give repository administration
 access only to people who are allowed to deploy. Protect the GitHub `test` environment
-so deployments can run only from `main`.
+so deployments can run only from `test`.
 
 ## Live deployment
 
