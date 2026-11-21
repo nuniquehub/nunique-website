@@ -134,7 +134,7 @@ renderCal();
 
 // ── TIME CHIPS ────────────────────────────────────────────────────────────────
 var tc = document.getElementById('timeChips');
-if (tc) { ['10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30'].forEach(function(t){
+if (tc) { ['10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00'].forEach(function(t){
     var b=document.createElement('button'); b.type='button'; b.className='time-chip'; b.textContent=t;
     b.addEventListener('click',function(){ tc.querySelectorAll('.time-chip.sel').forEach(function(x){x.classList.remove('sel');}); this.classList.add('sel'); document.getElementById('uhrzeit-input').value=t; }.bind(b));
     tc.appendChild(b);
