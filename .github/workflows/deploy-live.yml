@@ -18,7 +18,7 @@ concurrency:
 
 jobs:
   deploy:
-    if: ${{ inputs.confirm_production }}
+    if: ${{ inputs.confirm_production && github.ref == 'refs/heads/production' }}
     name: Upload live website
     runs-on: ubuntu-latest
     environment:
