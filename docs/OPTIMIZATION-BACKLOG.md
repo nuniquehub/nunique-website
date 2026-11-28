@@ -6,6 +6,9 @@ These items were deliberately postponed on 25 October 2026. Revisit them when th
 
 - Add verified starting prices, minimum order values and example ranges only after the business has confirmed the figures.
 - Create cake-specific customer case studies with permission, photos, occasion details and verifiable testimonials.
+- Reconsider a dedicated pickup and delivery information page only after the business has defined a stable delivery policy. Any future version must be reviewed together with the order form, occasion pages, footer, sitemap and legal terms before publication.
+- Reconsider progressive disclosure for the long order form only after a mobile usability test. The current preference is to keep every form section visible and expanded.
+- Reconsider an order-selection summary only as a separately tested component. The previous automatic summary was removed because it did not work reliably enough.
 
 ## SEO and performance
 
