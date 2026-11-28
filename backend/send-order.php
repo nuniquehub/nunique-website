@@ -26,6 +26,26 @@ function nq_html($value) {
     return htmlspecialchars((string)$value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 }
 
+function nq_format_pickup_date($value, $lang = 'de') {
+    $value = trim((string)$value);
+    if (!preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $value, $parts)) {
+        return $value;
+    }
+
+    $year = (int)$parts[1];
+    $month = (int)$parts[2];
+    $day = (int)$parts[3];
+    if (!checkdate($month, $day, $year)) {
+        return $value;
+    }
+
+    $months = $lang === 'en'
+        ? [1 => 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+        : [1 => 'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+
+    return sprintf('%02d.%s.%04d', $day, $months[$month], $year);
+}
+
 function nq_header_text($value, $maxLength = 180) {
     $value = nq_clean_text($value, $maxLength);
     return preg_replace('/[^\p{L}\p{N}\s\-_.@+&—]/u', '', $value);
@@ -345,6 +365,8 @@ if ($submissionClaim['duplicate']) {
 $name = trim($vorname . ' ' . $nachname);
 $ref = 'NQ-' . date('Ymd') . '-' . strtoupper(substr(bin2hex(random_bytes(4)), 0, 6));
 $timestamp = date('d.m.Y H:i');
+$datumOwner = nq_format_pickup_date($datum, 'de');
+$datumCustomer = nq_format_pickup_date($datum, $lang);
 
 $rows = [
     'Referenz' => $ref,
@@ -354,7 +376,7 @@ $rows = [
     'Telefon' => $phone,
     'Adresse' => $adresse,
     'Anlass' => $anlass,
-    'Abholdatum' => $datum,
+    'Abholdatum' => $datumOwner,
     'Abholzeit' => $uhrzeit,
     'Geschmack' => $geschmack,
     'Form' => $formShape,
@@ -387,7 +409,7 @@ $customerRows = [
     $en ? 'Email' : 'E-Mail' => $email,
     $en ? 'Phone' : 'Telefon' => $phone,
     $en ? 'Occasion' : 'Anlass' => $anlass,
-    $en ? 'Pickup date' : 'Abholdatum' => $datum,
+    $en ? 'Pickup date' : 'Abholdatum' => $datumCustomer,
     $en ? 'Pickup time' : 'Abholzeit' => $uhrzeit,
     $en ? 'Flavour' : 'Geschmack' => $geschmack,
     $en ? 'Size' : 'Größe' => $groesse,
@@ -404,7 +426,7 @@ $customerHtml = '<html><body style="font-family:Arial,sans-serif;color:#1A1A1A;m
     . '<p style="font-size:13px;color:#777">' . nq_html($config['bakery_email']) . '<br>' . nq_html($config['bakery_phone']) . '<br>' . nq_html($config['site_url']) . '</p>'
     . '</div><div style="background:#E91E8C;color:#fff;padding:12px;text-align:center;border-radius:0 0 14px 14px;font-size:13px">NUNIQUE — Cakes & Coffee</div></body></html>';
 
-$ownerSubject = 'Tortenanfrage von ' . $name . ' — ' . $datum;
+$ownerSubject = 'Tortenanfrage von ' . $name . ' — ' . $datumOwner;
 $ownerOk = nq_mail_html($config['bakery_email'], $ownerSubject, $ownerHtml, $config['from_email'], $config['from_name'], $email, $attachments, $config);
 if (!$ownerOk) {
     nq_release_submission_claim($submissionClaim['file']);
